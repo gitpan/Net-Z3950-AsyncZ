@@ -1,8 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Options</title>
-<link rev="made" href="mailto:root@localhost" />
+<title>No Title</title>
+<link rev="made" href="mailto:root@sundial.(none)" />
 </head>
 
 <body style="background-color: white">
@@ -16,17 +16,17 @@
 	<ul>
 
 		<li><a href="#types_of_options">Types of Options</a></li>
-		<li><a href="#net::z3950::asyncz::new">Net::Z3950::AsyncZ::new</a></li>
-		<li><a href="#net::z3950::asyncz::options::_params">Net::Z3950::AsyncZ::Options::_params</a></li>
+		<li><a href="#net__z3950__asyncz__new">Net::Z3950::AsyncZ::new</a></li>
+		<li><a href="#net__z3950__asyncz__options___params">Net::Z3950::AsyncZ::Options::_params</a></li>
 		<li><a href="#row_formatting_priorities">Row Formatting Priorities</a></li>
 		<li><a href="#methods_for_setting__params_options">Methods for Setting _params Options</a></li>
 		<ul>
 
-			<li><a href="#get/set_methods">get/set methods</a></li>
-			<li><a href="#net::z3950::asyncz::option::_params::option">Net::Z3950::AsyncZ::Option::_params::option</a></li>
-			<li><a href="#net::z3950::asyncz::option::_params::validoption">Net::Z3950::AsyncZ::Option::_params::validOption</a></li>
-			<li><a href="#net::z3950::asyncz::option::_params::invalidoption">Net::Z3950::AsyncZ::Option::_params::invalidOption</a></li>
-			<li><a href="#net::z3950::asyncz::option::_params::test">Net::Z3950::AsyncZ::Option::_params::test</a></li>
+			<li><a href="#get_set_methods">get/set methods</a></li>
+			<li><a href="#net__z3950__asyncz__option___params__option">Net::Z3950::AsyncZ::Option::_params::option</a></li>
+			<li><a href="#net__z3950__asyncz__option___params__validoption">Net::Z3950::AsyncZ::Option::_params::validOption</a></li>
+			<li><a href="#net__z3950__asyncz__option___params__invalidoption">Net::Z3950::AsyncZ::Option::_params::invalidOption</a></li>
+			<li><a href="#net__z3950__asyncz__option___params__test">Net::Z3950::AsyncZ::Option::_params::test</a></li>
 		</ul>
 
 	</ul>
@@ -80,7 +80,7 @@ and must be passed in with the first <code>_params</code> object, that is, <code
 because AsyncZ uses only one <code>Net::Z3950::Manager</code>. The Manager
 is created when setting up the first server passed into the constructor.</p>
 <dl>
-<dt><strong><a name="item_note%3a">Note:</a></strong><br />
+<dt><strong><a name="item_note_3a">Note:</a></strong><br />
 </dt>
 <dd>
 Default values for options are shown to the right of the <code>=&gt;</code>operator:
@@ -102,14 +102,14 @@ Default values for options are shown to the right of the <code>=&gt;</code>opera
 <p></p></dl>
 <p>
 </p>
-<h2><a name="net::z3950::asyncz::new">Net::Z3950::AsyncZ::new</a></h2>
+<h2><a name="net__z3950__asyncz__new">Net::Z3950::AsyncZ::new</a></h2>
 <dl>
 <dt><strong><a name="item_cb">cb</a></strong><br />
 </dt>
 <dd>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>cb=&gt;\&amp;cb</code>
 &nbsp;&nbsp;&nbsp;callback function to which records will be sent as available.
-See <a href="#output_callback_(required)">Output Callback</a>.
+See <a href="#output_callback__required_">Output Callback</a>.
 </dd>
 <p></p>
 <dt><strong><a name="item_format">format</a></strong><br />
@@ -117,7 +117,7 @@ See <a href="#output_callback_(required)">Output Callback</a>.
 <dd>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>format=&gt;\&amp;format</code>
 &nbsp;&nbsp;&nbsp;callback function to format individual lines of records.
-See <a href="#format_callback_(not_required)">Format Callback</a>.
+See <a href="#format_callback__not_required_">Format Callback</a>.
 If you create a <code>_params</code>
 object for a server and do not set its <a href="#item_format"><code>format</code></a> option, then the default
 <a href="#item_format"><code>format</code></a> will be used, even if you set the <a href="#item_format"><code>format</code></a> option of the 
@@ -210,8 +210,8 @@ for <a href="#item_num_to_fetch"><code>num_to_fetch</code></a> in the <code>Asyn
 </dt>
 <dd>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>options=&gt;\@options</code>
-&nbsp;&nbsp;&nbsp;reference to an array of references to <a href="#net::z3950::asyncz::options::_params">Net::Z3950::AsyncZ::Options::_params</a> objects.
-Each reference is obtained from a call to <a href="#net::z3950::asyncz::asynczoptions">Net::Z3950::AsyncZ::asyncZOptions</a>.  For instance:
+&nbsp;&nbsp;&nbsp;reference to an array of references to <a href="#net__z3950__asyncz__options___params">Net::Z3950::AsyncZ::Options::_params</a> objects.
+Each reference is obtained from a call to <a href="#net__z3950__asyncz__asynczoptions">Net::Z3950::AsyncZ::asyncZOptions</a>.  For instance:
 </dd>
 <dd>
 <pre>
@@ -266,6 +266,36 @@ will be used.</p>
 <p>&nbsp;&nbsp;&nbsp;See <a href="#item_options"><code>options</code></a> above and <code>AsyncZ.pod: &quot;The Basic Script&quot;</code>.</p>
 </dd>
 See also <a href="AsyncZ.html#the_basic_script">basic.pl</a><p></p>
+<dt><strong><a name="item_swap_attempts">swap_attempts</a></strong><br />
+</dt>
+<dd>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>swap_attempts=&gt;5</code>
+&nbsp;&nbsp;&nbsp;the number of times that a swap check will be done before exiting;
+see <a href="#item_swap_check"><code>swap_check</code></a> for details.
+</dd>
+<p></p>
+<dt><strong><a name="item_swap_check">swap_check</a></strong><br />
+</dt>
+<dd>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>swap_check=&gt;0</code>
+&nbsp;&nbsp;&nbsp;the number of seconds between checks for swapping activity--
+used when querying a great number of servers and requesting large amounts of data. It
+instructs AsyncZ to sleep for <a href="#item_swap_check"><code>swap_check</code></a> number of seconds before processing any
+further connections.  If you are attempting to process too much data for the size of your RAM,
+the system will have to swap out of memory into the swap space on your disk; too much swapping causes 
+loss of data and disk ``thrashing''--i.e. repeated disk access--and will overburden the system.
+When <a href="#item_swap_check"><code>swap_check</code></a> is set, AsyncZ will check for signs of swap activity; if it finds swap
+activity it will go to sleep for the number of seconds set in <a href="#item_swap_check"><code>swap_check</code></a> and then re-check
+for <a href="#item_swap_attempts"><code>swap_attempts</code></a> number of times.  If the swap activity continues beyond this number
+of checks, AsyncZ dies.  For large throughput, you will probably want to set the monitor,
+and to set it for a long period of time, for instance, 3000 seconds.  This means that
+you can set <a href="#item_swap_check"><code>swap_check</code></a> to a period of 10,20, 30 seconds.  The values you set on these
+variables will depend on your own system memory resources and the amount of data you 
+are processing.  
+<em>Note:</em>  This has been tested only on Linux but should also work
+on Unix, at least on Solaris.
+</dd>
+<p></p>
 <dt><strong><a name="item_timeout">timeout</a></strong><br />
 </dt>
 <dd>
@@ -290,7 +320,7 @@ results to the parent process before exiting the loop.
 <p></p></dl>
 <p>
 </p>
-<h2><a name="net::z3950::asyncz::options::_params">Net::Z3950::AsyncZ::Options::_params</a></h2>
+<h2><a name="net__z3950__asyncz__options___params">Net::Z3950::AsyncZ::Options::_params</a></h2>
 <p>Where a <code>_param</code> option duplicates an <code>AsyncZ::new</code> option, consult the 
 <code>AsyncZ::new</code> description for more details.</p>
 <dl>
@@ -497,7 +527,7 @@ priority squence is in effect:</p>
 <h2><a name="methods_for_setting__params_options">Methods for Setting _params Options</a></h2>
 <p>
 </p>
-<h3><a name="get/set_methods">get/set methods</a></h3>
+<h3><a name="get_set_methods">get/set methods</a></h3>
 <p><code>Net::Z3950::AsyncZ::Options::_params</code> provides a full range of <code>get_option</code> / <code>set_option</code> methods,
 enabling the dynamic setting of option values.</p>
 <pre>
@@ -533,7 +563,7 @@ have to be concerned that a meaningless hash key will spring into existence thro
 <code>set_preferredRecordSyntax(Net::Z3950::RecordSyntax::USMARC)</code>.</p>
 <p>
 </p>
-<h3><a name="net::z3950::asyncz::option::_params::option">Net::Z3950::AsyncZ::Option::_params::option</a></h3>
+<h3><a name="net__z3950__asyncz__option___params__option">Net::Z3950::AsyncZ::Option::_params::option</a></h3>
 <p>This method works to both get and set values.</p>
 <pre>
           $value = $_params_obj-&gt;option('option');
@@ -551,12 +581,12 @@ have to be concerned that a meaningless hash key will spring into existence thro
                                             which have been replaced by list or %hash</pre>
 <p>
 </p>
-<h3><a name="net::z3950::asyncz::option::_params::validoption">Net::Z3950::AsyncZ::Option::_params::validOption</a></h3>
+<h3><a name="net__z3950__asyncz__option___params__validoption">Net::Z3950::AsyncZ::Option::_params::validOption</a></h3>
 <pre>
         $bool = $_params_obj-&gt;validOption('option');</pre>
 <p>
 </p>
-<h3><a name="net::z3950::asyncz::option::_params::invalidoption">Net::Z3950::AsyncZ::Option::_params::invalidOption</a></h3>
+<h3><a name="net__z3950__asyncz__option___params__invalidoption">Net::Z3950::AsyncZ::Option::_params::invalidOption</a></h3>
 <pre>
         $bool = $_params_obj-&gt;invalidOption('option');</pre>
 <p>Both of the above methods will enable you to determine whether an option you choose to
@@ -567,7 +597,7 @@ set is a valid option.  Useful when using <code>Net::Z3950::AsyncZ::Option::_par
                                  die &quot;invalid option: $option&quot;;</pre>
 <p>
 </p>
-<h3><a name="net::z3950::asyncz::option::_params::test">Net::Z3950::AsyncZ::Option::_params::test</a></h3>
+<h3><a name="net__z3950__asyncz__option___params__test">Net::Z3950::AsyncZ::Option::_params::test</a></h3>
 <pre>
         $_params_obj-&gt;test();</pre>
 <p>Calling this function will print a listing of <em>defined</em> options and values for 

@@ -25,7 +25,7 @@ for my $s(@servers){
 
 
 ok($count > 0) or {print  "Bail out! You don\'t appear to be connected to the Internet" .
-                      "   --these tests require an Internet connection\n"},
+                      "   --these tests require an Internet connection\n"} and
                 exit;
 
 ($count > 0) and print STDERR " -- Internet Connection Found.\n -- Contacting test servers. Please wait.\n";

@@ -36,10 +36,4 @@ doc/Report.pod
 doc/contents.pod
 MARC/MARC.tar
 
-MARC/MANIFEST
-MARC/Base.pm
-MARC/HTML.pm
-MARC/META.pm
-MARC/Makefile.PL
-MARC/test.pl
-MARC/README.txt
+META.yml                                 Module meta-data (added by MakeMaker)

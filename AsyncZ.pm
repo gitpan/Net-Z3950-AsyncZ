@@ -1,8 +1,8 @@
-# $Date: 2003/12/21 05:12:20 $
-# $Revision: 1.11 $ 
+# $Date: 2004/03/25 19:53:37 $
+# $Revision: 1.13 $ 
 
 package Net::Z3950::AsyncZ;
-our $VERSION = '0.07';
+our $VERSION = '0.08';
 use Net::Z3950::AsyncZ::Options::_params;
 use Net::Z3950::AsyncZ::Errors;
 use Net::Z3950::AsyncZ::ZLoop;
@@ -283,7 +283,8 @@ my $self = {
                   timeout=>$args{timeout}  || 25, timeout_min=>$args{timeout_min} || 5,
                   interval => $args{interval} || 1, servers=>$args{servers},
                   options=>$args{options}, unlooped=>0, maxpipes=>$args{maxpipes} || 4, 
-                  share => undef, monitor => 0 || $args{monitor}, monitor_pid=>undef 
+                  share => undef, monitor => 0 || $args{monitor}, monitor_pid=>undef,
+ 		  swap_check => $args{swap_check} || 0, swap_attempts => $args{swap_attempts} || 5 
           };
 
 	bless $self,$class;        
@@ -344,6 +345,24 @@ my $count = 0;
                     
 
 		  if($count == $self->{maxpipes}) { 
+		       my $mem_avail = $self->{swap_check} ? 0 : 1;
+                       my $attempts = 0;
+                       while(!$mem_avail) {
+                          $mem_avail = is_mem_left();                         
+                          if (!$mem_avail){
+                            my $start_t = time();
+                	    Event->timer(at => time+$self->{swap_check},cb => sub { $_[0]->w->cancel;} );		
+    			    Event::loop;
+                            print STDERR "(swap-check) slept: ", time()-$start_t,"\n"; # if $__DBUG; 
+                          }
+                          $attempts++;
+			  print STDERR "(swap-check) attempts: $attempts\n"; # if $__DBUG;;
+                          die "Memory resources appear to be too low to continue;\n",
+                              "try settng the swap_check to a higher value and or",
+                              "allowing for more than $self->{swap_attempts} swap_attempts\n"
+                                   if $attempts > $self->{swap_attempts};
+                       }
+
 	              $self->{timer} = 
                         Event->timer(interval => $self->{interval}, hard=>1, cb=> sub { $self->timerCallBack(); } );                
     	                Event::loop();          
@@ -645,6 +664,49 @@ my $pid;
             while (1) { sleep(10); } 
         }
  
+}
+
+
+
+
+sub is_mem_left {
+ my $vmstat;
+ if($^O =~ /linux/) {
+     $vmstat = "vmstat 1 3 | ";
+ }
+ else {
+     $vmstat = "vmstat -S 1 3| ";
+ }
+
+    open VMSTAT, $vmstat or die "can't open vmstat";
+
+    my (@si,@so,$si_index,$so_index,@fields);
+    my $count=0;
+    while(<VMSTAT>) {
+         s/^\s*// and s/\s*$//;
+         s/\s+/;/g;
+         if(/si/i && /so/i) {
+            @fields =  split /;/;
+            for(my $i=0; $i< scalar @fields; $i++) {
+             $si_index = $i if  $fields[$i] =~ /^si$/i;
+             $so_index  = $i if $fields[$i] =~ /^so$/i;
+            }
+         }
+         elsif(/\d/) {
+           @fields =  split /;/;
+           $si[$count] =  $fields[$si_index];
+           $so[$count] = $fields[$so_index];           
+           $count++;
+         }
+    }
+
+    close VMSTAT;
+
+    return 0 if abs($si[2] - $si[1]) >= 20;
+    return 0 if abs($so[2] - $so[1]) >= 20;
+    return 1;
+
+
 }
 
 1;

@@ -1,4 +1,11 @@
 Revision history for Perl extension Net::Z3950::AsyncZ.
+0.08  2004/3/25  Thursday 11:47
+      -add protection for overloaded data throughput to prevent excessive virtual memory swapping
+       and potential loos of data and disk thrashing.  This is accomplished through two new
+       options set in AsnyncZ->new:  'swap_check' and 'swap_attempts'. AsyncZ checks for unusual amounts
+       of swap activity and if found sleeps for 'swap_check' number of seconds and the re-checks 
+       up to 'swap_attempts' number of times, aftr which it exits if excessive swap activity continues.  
+
 0.07  2003/12/2  Tuesday  8:40:33
       -Fixed utf8 implementation:  MARC:Charset was not installed when utf8=>1 was set as a parameter to
       the _params object but only when the function form set_utf8(1) was called.  The reason for this is
@@ -7,7 +14,7 @@ Revision history for Perl extension Net::Z3950::AsyncZ.
 
       2003/12/4  Thursday 23:27
       -Fixed bug in handling of the output callback option to the _params object.  The
-       output callback function would com into play only when cb=>\&output_function was
+       output callback function would come into play only when cb=>\&output_function was
        passed as a parameter to Asynz::new(). But the callback failed when cb=>\&output_function
        was passed to a _params object through Net::Z3950::AsyncZ::asyncZOptions() 
        or set through $params_object->set_cb(). Now, it works as it was supposed to, i.e.it

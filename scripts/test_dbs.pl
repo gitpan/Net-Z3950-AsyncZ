@@ -46,7 +46,7 @@ my $log = suppressErrors();
 my $zl = Net::Z3950::AsyncZ->new(
                                servers=>$servers, monitor=>1200,
                                query=>$query, timeout=>25, num_to_fetch=>1,
-		   	       log=>$log,
+		   	       log=>$log, swap_check => 25,
                                cb=>\&output2
  			);
 return $zl;
