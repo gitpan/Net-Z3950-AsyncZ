@@ -1,4 +1,14 @@
 Revision history for Perl extension Net::Z3950::AsyncZ.
+
+0.06  2003/06/19 Thursday 12:02:52;
+     -Upgraded code for reaping zombies in AsyncZ::DESTROY--checking first to see if child process
+       is still running (kill=>0 $pid) and then adding a sleep at end of method to give
+       child handler a chance to reap oustanding killed prcoesses.        
+     -Added skeleton pod to ErrMsg.pm
+0.06 2003/7/11 Tursday 8:16:10
+     -Corrected bug in Report.pm which eliminated spaces between field elements when more
+     than one subject occurred in subject field and in LC numbers.
+ 
 0.05 Sunday May 31/2003 13:05
     -fixed bug in Errors.pm so that the Message "No Records for this Query" is suppressed
       when suppressErrors is in effect;

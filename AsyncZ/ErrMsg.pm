@@ -1,6 +1,6 @@
-# $Date: 2003/05/05 16:50:12 $
-# $Revision: 1.4 $ 
-
+# $Date: 2003/06/19 12:03:31 $
+# $Revision: 1.5 $ 
+our $VERSION = '0.02';
 
 
 package Net::Z3950::AsyncZ::ErrMsg;
@@ -67,6 +67,15 @@ my @Z3950_MSG = (
 	      "Failed to connect to the server within time out period.",
 	      "Failed to connect to the server within time out period."
 );   	
+
+
+# returns error message string for storing in $self->{msg}
+# [1] exit without a result, error code 0, type = 4, "Timed out, try again"
+# [2] error code = -1, failed connection, try again
+# [3] error code >= $Net::Z3950::Errors::$_ERROR_VAL, substract $_ERROR_VAL from error code to get error 
+#      see NZ3950 Error	above
+# [4] None of the above, return the system error string for this error code
+
 sub _getError {
 
   return   "Timed out. Try again." 
@@ -132,4 +141,79 @@ sub _EINVAL { return EINVAL; }
 
 
 1;
+
+
+
+=head1 NAME
+
+Net::Z3950::AsyncZ - Perl extension for the Net::Z3950::AsyncZ module
+
+=head1 SYNOPSIS
+
+	use Net::Z3950::AsyncZ::ErrMsg;
+
+	my $err = Net::Z3950::AsyncZ::ErrMsg->new($error_number});
+
+=head1 ABSTRACT
+
+C<Net::Z3950::AsyncZ::ErrMsg> objects are created internally by
+C<Net::Z3950::AsyncZ> for keeping track of errors returned by each
+forked process.
+
+=head1 DESCRIPTION
+
+C<Net::Z3950::AsyncZ::ErrMsg> objects are created internally by
+Net::Z3950::AsyncZ for keeping track of errors returned by each
+forked process. This means that there may be an an C<ErrMsg> object for
+both cycle one and cycle two processes. 
+
+The user does not create these objects. They are made available by means
+of C<Net::Z3950::AsyncZ::getErrors()>, which returns a reference to an
+array of two C<ErrMsg> obects, representing possible errors from cycle
+one and cycle two processes. 
+
+A detailed account of error handling will be found in the documentation
+for C<Net::Z3950::AsyncZ> under the heading C<Errors>.  
+
+=head1 Object Methods
+
+=over 4
+
+=item isSystem
+
+=item sub isNetwork
+
+=item sub isTryAgain
+
+=item sub isSuccess
+
+=item sub isUnspecified
+
+=item sub isZ3950
+
+=item sub doRetry
+
+=item sub doAbort
+
+=back
+
+These methods enable the user to determine the type of error which has
+been returned.  They return true or false.
+
+	print "Network error\n" if $err->isNetwork();
+
+See the C<Net::Z3950::AsyncZ> documentation for examples.
+
+=head1 AUTHOR
+
+Myron Turner
+E<lt>turnermm@shaw.caE<gt>
+or E<lt>mturner@ms.umanitoba.caE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2003 by Myron Turner
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself. 
 

@@ -1,4 +1,4 @@
-$Id: AsyncZ.pod,v 1.3 2003/05/04 04:05:14 tower Exp $
+$Id: AsyncZ.pod,v 1.4 2003/06/19 12:04:57 tower Exp $
 
 =begin html
 
@@ -1445,7 +1445,7 @@ based on its exit code.  There is a separate set of C<Net::Z3950::AsyncZ::ErrMsg
 each of the two C<AsyncZ> cycles (See L</"The Basic Mechanisms of Net::Z3950::AsyncZ">).
 A query which reported failure in the first cycle may have been successful in
 its second attempt. C<Net::Z3950::AsyncZ::isZ_Error> returns true if a server has not
-returned any records, fasle if it has.
+returned any records, false if it has.
 
 =head3 Net::Z3950::AsyncZ::ErrMsg Object
 

@@ -1,8 +1,8 @@
-# $Date: 2003/05/31 18:16:26 $
-# $Revision: 1.8 $ 
+# $Date: 2003/06/19 12:02:52 $
+# $Revision: 1.9 $ 
 
 package Net::Z3950::AsyncZ;
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 use Net::Z3950::AsyncZ::Options::_params;
 use Net::Z3950::AsyncZ::Errors;
 use Net::Z3950::AsyncZ::ZLoop;
@@ -286,7 +286,7 @@ my $self = {
       
       $SIG{HUP} = sub {             
           $self->{abort} = 1;          
-          $self->{unlooped} = 1;                 
+          $self->{unlooped} = 1;   # notify DESTROY that it's safe to kill outstanding processes              
           $! = 227;
           die "Aborting." 
        };
@@ -593,11 +593,15 @@ my $self =  shift;
   return if !$self->{unlooped};  
   print "DESTROY\n" if $__DBUG;
   foreach my $pid (keys %exitCode) {   
-      kill 9 => $pid if ($exitCode{$pid} < 0 || $exitCode{$pid} > 0);  
-      print "killing $pid\n" if ($exitCode{$pid} < 0 || $exitCode{$pid} > 0) && $__DBUG;
+      if( kill 0 => $pid) {
+	kill 9 => $pid if ($exitCode{$pid} < 0 || $exitCode{$pid} > 0);  
+	print "killing $pid\n" if ($exitCode{$pid} < 0 || $exitCode{$pid} > 0) && $__DBUG;
+      }
   }
     kill KILL => $self->{monitor_pid} if $self->{monitor};
     $self->{share} = undef if defined $self->{share};
+
+    sleep(1);  # allow time for remaining killed processes to be reaped
 }
 
 

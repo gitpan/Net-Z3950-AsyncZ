@@ -1,7 +1,7 @@
-# $Date: 2003/05/05 16:50:12 $
-# $Revision: 1.4 $ 
+# $Date: 2003/07/11 13:16:56 $
+# $Revision: 1.5 $ 
 
-
+our $VERSION = '0.02';
 package Net::Z3950::AsyncZ::Report;
 use Net::Z3950;
 use MARC::Base;
@@ -334,10 +334,7 @@ sub printGRS_1 {
    $field =~ s/^\(\d+,\s*(\d+)\)\s+//;
    my $id = $1; 
    if($id && exists $MARC_FIELDS{$id}) {
-           if($MARC_FIELDS{"050"}) {
-                $field =~ s/\_.//g;
-           }
-	   else { $field =~ s/\_./ /g; } 
+           $field =~ s/\_./ /g; 
 	   $field =~ s/\"//g;     
            $self->_formatRecordRow([$id, $field]);
    }  
@@ -390,14 +387,10 @@ sub printMARCRecord {
       my $id = $1;  
 
       if( exists $MARC_FIELDS{$id}) {
-
-           if($MARC_FIELDS{"050"}) {
-               $f=~ s/\|.//g;
-           }
-	    else { $f=~ s/\|./ /g; }  
-	      $f=~s/^ +//;     
-	      $self->_formatRecordRow([$id, $f]);
-	    }
+           $f=~ s/\|./ /g;
+	   $f=~s/^ +/ /;     
+	   $self->_formatRecordRow([$id, $f]);
+	 }
     }
 
 }
