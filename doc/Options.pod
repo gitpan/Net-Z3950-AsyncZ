@@ -1,4 +1,4 @@
-$Id: Options.pod,v 1.4 2003/05/05 16:06:18 tower Exp $
+$Id: Options.pod,v 1.5 2003/12/05 17:04:08 tower Exp $
 
 =begin html
 
@@ -159,9 +159,9 @@ E<nbsp>E<nbsp>E<nbsp>reference to an array of references to L</"Net::Z3950::Asyn
 Each reference is obtained from a call to L</"Net::Z3950::AsyncZ::asyncZOptions">.  For instance:
 
 	@options = (
-		asyncZOptions(option_1=>opt_1,option_2>opt_2, . . .),
+		asyncZOptions(option_1=>opt_1,option_2=>opt_2, . . .),
 		undef,
-		asyncZOptions(option_1=>opt_1,option_2>opt_2, . . .)
+		asyncZOptions(option_1=>opt_1,option_2=>opt_2, . . .)
 		);
 
 This array parallels the C<servers> array:

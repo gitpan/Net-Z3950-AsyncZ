@@ -44,7 +44,7 @@ my $servers = shift;
 my $query = '  @attr 1=1003  "Henry James" ';
 my $log = suppressErrors();
 my $zl = Net::Z3950::AsyncZ->new(
-                               servers=>$servers, monitor=>600,
+                               servers=>$servers, monitor=>1200,
                                query=>$query, timeout=>25, num_to_fetch=>1,
 		   	       log=>$log,
                                cb=>\&output2
@@ -59,6 +59,7 @@ return $zl;
 
 sub output2 {  
 my($index, $array) = @_;
+
 
 my $pat = Net::Z3950::AsyncZ::Report::get_pats();
 

@@ -4,15 +4,10 @@ Net/Z3950/AsyncZ version 0.04
 TO-DO
 =====	
 
-The 'monitor' option of the AsyncZ constructor forks off a child process
-that kills the parent process after a timeout period. The purpose of
-this is to prevent a script from hanging and having to be killed
-manually--at which point unfreed shared memory and sempahores have to be
-freed. 
+-- Add a default output callback (for both plain text and html)
+-- Add a default errors callback (for both plain text and html)
+-- enable a string server:port/database as option to servers parameter
+    in both Net::Z3950::AsyncZ::new and  Net::Z3950::AsyncZ:Options_param
 
-
-If a particular server hangs the script, then results from any servers
-which haven't been heard from will fail to return. I am working on an
-improved monitor.
 
 

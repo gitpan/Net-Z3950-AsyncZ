@@ -1,13 +1,28 @@
 Revision history for Perl extension Net::Z3950::AsyncZ.
+0.07  2003/12/2  Tuesday  8:40:33
+      -Fixed utf8 implementation:  MARC:Charset was not installed when utf8=>1 was set as a parameter to
+      the _params object but only when the function form set_utf8(1) was called.  The reason for this is
+      that the function form is handled in Options::_params::AUTOLOAD, which calls AsyncZ::_setupUTF8().  I had
+      forgotten to implement a procedure for calling AsyncZ::_setupUTF8() when the parameter format was used.
+
+      2003/12/4  Thursday 23:27
+      -Fixed bug in handling of the output callback option to the _params object.  The
+       output callback function would com into play only when cb=>\&output_function was
+       passed as a parameter to Asynz::new(). But the callback failed when cb=>\&output_function
+       was passed to a _params object through Net::Z3950::AsyncZ::asyncZOptions() 
+       or set through $params_object->set_cb(). Now, it works as it was supposed to, i.e.it
+       is possible to set a different callback for each individual server. 
 
 0.06  2003/06/19 Thursday 12:02:52;
      -Upgraded code for reaping zombies in AsyncZ::DESTROY--checking first to see if child process
        is still running (kill=>0 $pid) and then adding a sleep at end of method to give
        child handler a chance to reap oustanding killed prcoesses.        
      -Added skeleton pod to ErrMsg.pm
+
 0.06 2003/7/11 Tursday 8:16:10
-     -Corrected bug in Report.pm which eliminated spaces between field elements when more
-     than one subject occurred in subject field and in LC numbers.
+     -Fixed error in logic in Report.pm that caused the space to be eliminated
+     between adjacent subject headings that occcur in subject fields with multiple entries
+     and also eliminated spaces between elements in LC numbers.
  
 0.05 Sunday May 31/2003 13:05
     -fixed bug in Errors.pm so that the Message "No Records for this Query" is suppressed

@@ -1,8 +1,8 @@
-# $Date: 2003/06/19 12:02:52 $
-# $Revision: 1.9 $ 
+# $Date: 2003/12/21 05:12:20 $
+# $Revision: 1.11 $ 
 
 package Net::Z3950::AsyncZ;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 use Net::Z3950::AsyncZ::Options::_params;
 use Net::Z3950::AsyncZ::Errors;
 use Net::Z3950::AsyncZ::ZLoop;
@@ -64,15 +64,16 @@ sub isZ_DEFAULT { $_[0] =~ Net::Z3950::AsyncZ::Report::get_DEFAULT_pat(); }
 sub getZ_RecNum { $_[0] =~ /\s(\d+)\]/; $1; }
 
 sub _setupUTF8 {
-local $^W = 0;     
-  eval { require MARC::Charset; }; 
-local $^W = 1;     
-  if ($@) {
-    warn "UTF8 requires MARC::Charset\n";
-    return 0;
-  }
-
-  return 1;
+     return if is_utf8_init();
+	local $^W = 0;     
+	  eval { require MARC::Charset; }; 
+	local $^W = 1;     
+	  if ($@) {
+	    warn "UTF8 requires MARC::Charset\n";
+	    return 0;
+	  }
+    set_uft8_init();
+    return 1;
 }
 
 # params:  string or ref to string
@@ -157,8 +158,9 @@ sub isZ_PID { $_[0] =~ /<#--\d+-->/; }
 sub isZ_Info { &isZ_PID || &noZ_Response; }
 # returns server name
 sub Z_serverName {   
-         $_[0] =~ /<!--(.*)-->/;
-         return $1 if $1;
+         if( $_[0] =~ /<!--(.*?)-->/){
+           return $1 if $1;
+         }
 	 return undef;
 }
 
@@ -185,9 +187,22 @@ my @results=();
 my @errors=();
 my @recSize = ();
 my $busy = 0;
+my $utf8_init = 0;
+
+ sub is_utf8_init {      
+   $utf8_init;
+ }
+
+ sub set_uft8_init {
+   $utf8_init = 1;
+ }
 
  sub _utf8 {
     my $index = shift;    
+
+    _setupUTF8() if !$utf8_init;
+    return if !$utf8_init;
+
     my $cs = MARC::Charset->new();
     for(my $i = 0; $i < scalar(@{$results[$index]}); $i++) {
                  $results[$index]->[$i] = $cs->to_utf8($results[$index]->[$i]);
@@ -461,7 +476,7 @@ my ($self, $pid) = @_;
                  while(_isBusy()) { } 
                  _saveResults(\@data, $index);     
                  while(_isBusy()) { } 
-                 $self->_callback($index) if $self->{cb};                
+                 $self->_callback($index); # if $self->{cb};                
 
 
                  $self->{share}->unlock;                 
@@ -590,7 +605,8 @@ my $self =  shift;
 
 
 
-  return if !$self->{unlooped};  
+  return if !$self->{unlooped};
+
   print "DESTROY\n" if $__DBUG;
   foreach my $pid (keys %exitCode) {   
       if( kill 0 => $pid) {
@@ -614,7 +630,7 @@ my $self = shift;
 
 $SIG{ALRM} = sub { 
   my $pid = getppid();
-  print "killing: $pid\n";  
+ # print "killing: $pid\n";  
   kill HUP => $pid;   
   kill KILL => $$;
   };

@@ -1,5 +1,5 @@
-# $Date: 2003/07/11 13:16:56 $
-# $Revision: 1.5 $ 
+# $Date: 2003/12/05 17:02:57 $
+# $Revision: 1.6 $ 
 
 our $VERSION = '0.02';
 package Net::Z3950::AsyncZ::Report;
