@@ -1,9 +1,22 @@
 Revision history for Perl extension Net::Z3950::AsyncZ.
+0.10  Wed Jun  2 13:47:24 CDT 2004
+       -implmeneted what I hope is permanent fix for the swap check issue--added
+       a 1 sec sleep between each input from pipe in the loop reading from vmstat, in 
+       sub is_mem_left:
+           
+             while(VMSAT) {
+	       sleep(1)
+	        . . .
+	      }
+
+0.10  2004/5/29/ Saturday 6:24
+       -found that swap check failed under certain conditions and added temporary fix
+
 0.08  2004/3/25  Thursday 11:47
       -add protection for overloaded data throughput to prevent excessive virtual memory swapping
        and potential loos of data and disk thrashing.  This is accomplished through two new
        options set in AsnyncZ->new:  'swap_check' and 'swap_attempts'. AsyncZ checks for unusual amounts
-       of swap activity and if found sleeps for 'swap_check' number of seconds and the re-checks 
+       of swap activity and if found sleeps for 'swap_check' number of seconds and then re-checks 
        up to 'swap_attempts' number of times, aftr which it exits if excessive swap activity continues.  
 
 0.07  2003/12/2  Tuesday  8:40:33

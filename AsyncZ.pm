@@ -1,8 +1,8 @@
-# $Date: 2004/03/25 19:53:37 $
-# $Revision: 1.13 $ 
+# $Date: 2004/03/25 22:58:20 $
+# $Revision: 1.14 $ 
 
 package Net::Z3950::AsyncZ;
-our $VERSION = '0.08';
+our $VERSION = '0.10';
 use Net::Z3950::AsyncZ::Options::_params;
 use Net::Z3950::AsyncZ::Errors;
 use Net::Z3950::AsyncZ::ZLoop;
@@ -353,10 +353,10 @@ my $count = 0;
                             my $start_t = time();
                 	    Event->timer(at => time+$self->{swap_check},cb => sub { $_[0]->w->cancel;} );		
     			    Event::loop;
-                            print STDERR "(swap-check) slept: ", time()-$start_t,"\n"; # if $__DBUG; 
+                            # print STDERR "(swap-check) slept: ", time()-$start_t,"\n" if $__DBUG; 
                           }
                           $attempts++;
-			  print STDERR "(swap-check) attempts: $attempts\n"; # if $__DBUG;;
+			   # print STDERR "(swap-check) attempts: $attempts\n" if $__DBUG;;
                           die "Memory resources appear to be too low to continue;\n",
                               "try settng the swap_check to a higher value and or",
                               "allowing for more than $self->{swap_attempts} swap_attempts\n"
@@ -683,6 +683,7 @@ sub is_mem_left {
     my (@si,@so,$si_index,$so_index,@fields);
     my $count=0;
     while(<VMSTAT>) {
+         sleep(1);    # helps to insure that vmstat produces 3 lines of output  
          s/^\s*// and s/\s*$//;
          s/\s+/;/g;
          if(/si/i && /so/i) {
@@ -701,7 +702,7 @@ sub is_mem_left {
     }
 
     close VMSTAT;
-
+    sleep 3 and return 1 if $count < 2;  # fix for when vmstat returns after only one cycle
     return 0 if abs($si[2] - $si[1]) >= 20;
     return 0 if abs($so[2] - $so[1]) >= 20;
     return 1;
