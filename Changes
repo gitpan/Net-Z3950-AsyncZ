@@ -1,5 +1,20 @@
 Revision history for Perl extension Net::Z3950::AsyncZ.
-
+0.05 Sunday May 31/2003 13:05
+    -fixed bug in Errors.pm so that the Message "No Records for this Query" is suppressed
+      when suppressErrors is in effect;
+    -included DB.txt and test_dbs.pl in the scripts directory, supplying over 1000 servers
+      with a script to query and test them
+    -fixed bug in AsyncZ.pm so that correct pid is found when getting the results from
+      a server, in _getresult(); this assures that the correct index is fed to the callback
+      function--this problem showed up only once we began to process large numbers of servers
+      in one session (with the test_dbs.pl script)
+    
+0.03 2003/05/05 Sunday 16:06:18
+	- AsyncZ.pm and _params.pm     
+	   Implemented utf8 support, using MARC::Charset
+           added utf8 option to _params.pm 
+           added _setupUTF8() and  _utf8() in AsyncZ.pm 
+ 
 0.03 2003/05/02 Friday 14:39:12
   - Report.html/Report.pod
   	explictly indicated that $all, $xtra, $std are references
@@ -8,7 +23,7 @@ Revision history for Perl extension Net::Z3950::AsyncZ.
        added an example of how to create a user defined MARC
            hash which adds fields to the %MARC_FIELDS_ALL hash.
  - Contents.html
-      updated index to reflect chanes in Reprot.html
+      updated index to reflect changes in Report.html
 
 0.02 Tuesday April 15 2003
   - Converted Net::AsyncZ to Net::Z3950::AsyncZ

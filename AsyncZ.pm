@@ -1,8 +1,8 @@
-# $Date: 2003/05/06 00:04:39 $
-# $Revision: 1.7 $ 
+# $Date: 2003/05/31 18:16:26 $
+# $Revision: 1.8 $ 
 
 package Net::Z3950::AsyncZ;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 use Net::Z3950::AsyncZ::Options::_params;
 use Net::Z3950::AsyncZ::Errors;
 use Net::Z3950::AsyncZ::ZLoop;
@@ -455,9 +455,9 @@ my ($self, $pid) = @_;
                  $resultTable{$_this_pid}->[1] = 1
                             if $_this_pid && exists $resultTable{$_this_pid}; 
                  splice(@data,1,1);
-
+                 $pid =  $_this_pid if $_this_pid;
                  my $index = _getIndex($pid);
-
+                 
                  while(_isBusy()) { } 
                  _saveResults(\@data, $index);     
                  while(_isBusy()) { } 

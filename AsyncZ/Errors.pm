@@ -1,5 +1,5 @@
-# $Date: 2003/05/05 16:50:12 $
-# $Revision: 1.4 $ 
+# $Date: 2003/05/31 18:16:43 $
+# $Revision: 1.5 $ 
 
 
 package Net::Z3950::AsyncZ::Errors;
@@ -135,7 +135,7 @@ else {
 
 sub reportNoEntries {
  my $fh = _FH();
- print $fh  "No Records for this Query\n";
+ print $fh  "No Records for this Query\n" if(!suppress());
  pushErr("No Records for this Query");
 }
 

@@ -7,6 +7,9 @@ scripts/options.pl
 scripts/ipc.pl
 scripts/raw.pl
 scripts/MARC_HTML.pl
+scripts/DB.txt
+scripts/test_dbs.pl
+scripts/README
 AsyncZ/ZSend.pm
 AsyncZ/Errors.pm
 AsyncZ/ZLoop.pm
