@@ -1,0 +1,69 @@
+Revision history for Perl extension Net::Z3950::AsyncZ.
+
+0.03 2003/05/02 Friday 14:39:12
+  - Report.html/Report.pod
+  	explictly indicated that $all, $xtra, $std are references
+	   to the respective %MARC_ hashes-- which I had failed to do in
+	   earlier documentation
+       added an example of how to create a user defined MARC
+           hash which adds fields to the %MARC_FIELDS_ALL hash.
+ - Contents.html
+      updated index to reflect chanes in Reprot.html
+
+0.02 Tuesday April 15 2003
+  - Converted Net::AsyncZ to Net::Z3950::AsyncZ
+ 
+  - AsyncZ.pm  
+        fixed bug which result in "Killed" being printed to STDERR at closed of scripts
+	which did not use a monitor process
+
+0.02 Sunday April 13 2003
+ - Added support for unrendered raw records with helper subroutines
+  - AsyncZ.pm
+	# params:  string or ref to string
+	#   	   boolean: true, then substitution uses 'g' modifier		
+	#	   substitution string
+	#              if subst string is not defined, empty string is substituted
+	# return:  either string or reference to string, depending on whether a reference or a string
+	#          was intially passed in paramter $_[0]		
+	sub delZ_header 
+	sub delZ_pid
+	sub delZ_serverName
+	sub _del_headers # internal function which implements the above
+
+	sub prep_Raw # prepares the unrendered raw data for get_ZRawRec();
+	# param:  ref to string of raw records
+	# return next record
+	sub get_ZRawRec
+  
+  - AsyncZ.pm
+     Fixed bug in:
+ 	sub isZ_MARC, sub isZ_GRS, sub isZ_RAW,isZ_DEFAULT  
+	pattern was not being checked only names (MARC, GRS1,RAW,DEFAULT);
+
+  - Report.pm
+	we now output unrendered raw and rendered raw records:
+	  printRaw, printRenderedRaw
+	added option to new: 
+	  rendered => 1 # default is true
+
+  - _params.pm	updated _params with support for rendered option
+
+
+
+0.02  Fri April 11 2003  
+ - AsyncZ.pm
+ - Added use sigtrap to handle signals not handled explcitly
+	purpose: to protect against failure to free shared memory and semaphores
+		 if a browser cut off contact with a script
+ - Added private parameter monitor_pid to new
+	purpose:  to give new and DESTROY access to the monitor's pid, so as to enable 
+	          one of these to kill the process in clean up, again to prevent
+		  failure to free IPC resources
+
+
+
+0.01  Mon Mar 31 20:45:10 2003
+	- original version; created by h2xs 1.22 with options
+		-X -A Net::Z3950::AsyncZ
+
